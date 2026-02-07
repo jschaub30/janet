@@ -1,0 +1,35 @@
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Configuration with secrets
+config/*.json
+config/*.yml
+!config/*.example.json
+!config/*.example.yml
+!config/openclaw.json
+
+# WhatsApp session data
+whatsapp-sessions/
+
+# Node modules
+node_modules/
+
+# Docker volumes
+wordpress_data/
+openclaw_data/
+db_data/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

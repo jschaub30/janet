@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  janet:
+    build: .
+    container_name: janet-assistant
+    ports:
+      - "8080:80"      # WordPress
+      - "3000:3000"    # OpenClaw (if needed)
+    environment:
+      # WordPress Database Configuration
+      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME:-wordpress}
+      - WORDPRESS_DB_USER=${WORDPRESS_DB_USER:-wordpress}
+      - WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD:-wordpress_password}
+
+      # Anthropic API Configuration
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+
+      # Gmail Configuration
+      - GMAIL_USER=${GMAIL_USER}
+      - GMAIL_APP_PASSWORD=${GMAIL_APP_PASSWORD}
+      - GMAIL_CLIENT_ID=${GMAIL_CLIENT_ID}
+      - GMAIL_CLIENT_SECRET=${GMAIL_CLIENT_SECRET}
+      - GMAIL_REFRESH_TOKEN=${GMAIL_REFRESH_TOKEN}
+
+      # WhatsApp Configuration
+      - WHATSAPP_ENABLED=${WHATSAPP_ENABLED:-true}
+
+      # WordPress Site Configuration
+      - WORDPRESS_URL=${WORDPRESS_URL:-http://localhost:8080}
+      - WORDPRESS_SITE_TITLE=${WORDPRESS_SITE_TITLE:-Janet's WordPress Site}
+      - WORDPRESS_ADMIN_USER=${WORDPRESS_ADMIN_USER:-admin}
+      - WORDPRESS_ADMIN_PASSWORD=${WORDPRESS_ADMIN_PASSWORD:-change_this_password}
+      - WORDPRESS_ADMIN_EMAIL=${WORDPRESS_ADMIN_EMAIL:-admin@example.com}
+      - JANET_API_PASSWORD=${JANET_API_PASSWORD:-janet_api_password}
+
+      # General Configuration
+      - NODE_ENV=${NODE_ENV:-production}
+      - OPENCLAW_LOG_LEVEL=${OPENCLAW_LOG_LEVEL:-info}
+    volumes:
+      - wordpress_data:/var/www/wordpress
+      - openclaw_data:/root/.openclaw
+      - whatsapp_sessions:/opt/janet/whatsapp-sessions
+      - ./config:/opt/janet/config
+      - ./logs:/opt/janet/logs
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - janet-network
+
+  db:
+    image: mysql:8.0
+    container_name: janet-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root_password}
+      - MYSQL_DATABASE=${WORDPRESS_DB_NAME:-wordpress}
+      - MYSQL_USER=${WORDPRESS_DB_USER:-wordpress}
+      - MYSQL_PASSWORD=${WORDPRESS_DB_PASSWORD:-wordpress_password}
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - janet-network
+
+volumes:
+  wordpress_data:
+  openclaw_data:
+  whatsapp_sessions:
+  db_data:
+
+networks:
+  janet-network:
+    driver: bridge

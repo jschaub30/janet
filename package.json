@@ -1,0 +1,26 @@
+{
+  "name": "janet-openclaw-assistant",
+  "version": "1.0.0",
+  "description": "Janet - An AI assistant powered by OpenClaw with WordPress integration",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "setup:whatsapp": "./setup-whatsapp.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "openclaw",
+    "ai",
+    "assistant",
+    "wordpress",
+    "whatsapp",
+    "gmail"
+  ],
+  "author": "Janet",
+  "license": "MIT",
+  "dependencies": {
+    "nodemailer": "^6.9.8",
+    "imap": "^0.8.19",
+    "mailparser": "^3.6.6"
+  }
+}
