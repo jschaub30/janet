@@ -44,10 +44,49 @@ if ! wp core is-installed --allow-root --path=/var/www/wordpress 2>/dev/null; th
     # Flush rewrite rules
     wp rewrite flush --allow-root --path=/var/www/wordpress
 
+    # Manually create .htaccess file (wp rewrite flush doesn't always create it)
+    echo "Creating .htaccess file..."
+    cat > /var/www/wordpress/.htaccess << 'EOF'
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+EOF
+    chown www-data:www-data /var/www/wordpress/.htaccess
+    chmod 644 /var/www/wordpress/.htaccess
+
     echo "Permalinks configured!"
 
 else
     echo "WordPress is already installed."
+fi
+
+# Ensure .htaccess file exists (even if WordPress was already installed)
+if [ ! -f /var/www/wordpress/.htaccess ]; then
+    echo "Creating missing .htaccess file..."
+    cat > /var/www/wordpress/.htaccess << 'EOF'
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# END WordPress
+EOF
+    chown www-data:www-data /var/www/wordpress/.htaccess
+    chmod 644 /var/www/wordpress/.htaccess
+    echo ".htaccess file created!"
 fi
 
 # Create an API user for Janet
