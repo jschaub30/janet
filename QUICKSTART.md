@@ -7,7 +7,7 @@ Get Janet up and running in 5 minutes!
 ✅ Docker and Docker Compose installed
 ✅ Anthropic API key ([Get one](https://console.anthropic.com/))
 ✅ Gmail with App Password ([Generate](https://myaccount.google.com/apppasswords))
-✅ WhatsApp account
+✅ Telegram account
 
 ## Step 1: Configure Environment (2 min)
 
@@ -57,25 +57,24 @@ Should see all green checkmarks ✅
 - Open http://localhost:8080 (WordPress)
 - Login to http://localhost:8080/wp-admin (admin/your-password)
 
-## Step 4: Connect WhatsApp (Optional)
+## Step 4: Connect Telegram (Optional)
 
+First, create a bot:
+1. Search for @BotFather on Telegram
+2. Send `/newbot` and follow prompts
+3. Copy the bot token
+4. Add to `.env`: `TELEGRAM_BOT_TOKEN=your-token`
+5. Restart: `docker-compose restart`
+
+Then setup:
 ```bash
-# Enter container
-docker exec -it janet-assistant bash
-
-# Setup WhatsApp
-./setup-whatsapp.sh
-
-# Scan QR code with your phone
-# Settings > Linked Devices > Link a Device
-
-exit
+docker exec -it janet-assistant ./setup-telegram.sh
 ```
 
 ## Step 5: Start Using Janet!
 
-### Via WhatsApp
-Send a message to your connected WhatsApp number:
+### Via Telegram
+Search for your bot and send a message:
 ```
 Hello Janet, list my WordPress posts
 ```
@@ -135,13 +134,16 @@ docker-compose ps
 curl http://localhost:8080
 ```
 
-### WhatsApp QR code doesn't appear
+### Telegram bot not responding
 ```bash
-# Check OpenClaw logs
-docker-compose logs openclaw
+# Check if bot token is set
+docker exec janet-assistant printenv | grep TELEGRAM
 
-# Try again
-docker exec -it janet-assistant ./setup-whatsapp.sh
+# Check OpenClaw logs
+docker-compose logs janet
+
+# Verify plugin is enabled
+docker exec janet-assistant openclaw plugins list | grep telegram
 ```
 
 ## Next Steps

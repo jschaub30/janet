@@ -1,89 +1,15 @@
 {
-  // Janet - OpenClaw Configuration
-  // This file configures the OpenClaw AI assistant
+  // Janet - OpenClaw Configuration (Minimal valid config)
 
-  agent: {
-    // Use Anthropic's Claude Opus 4.6 model
-    model: "anthropic/claude-opus-4-6",
-
-    // Agent personality and instructions
-    systemPrompt: "You are Janet, an AI assistant with full access to a WordPress website. You can help with WordPress development, content management, and website administration. You have expertise through the Automattic Agent Skills. You can communicate via WhatsApp and email.",
+  gateway: {
+    mode: "local"
   },
 
-  // Channel configurations
-  channels: {
-    // WhatsApp configuration
-    // OpenClaw uses @whiskeysockets/baileys for WhatsApp Web protocol
-    whatsapp: {
-      enabled: true,
-
-      // Access control: uncomment to restrict who can message Janet
-      // allowFrom: ["+1234567890", "+0987654321"],
-
-      // Self-chat mode: allows messaging yourself (useful for testing)
-      selfChatMode: true,
-
-      // DM (Direct Message) policy
-      dmPolicy: {
-        enabled: true,
-        autoRespond: true
-      },
-
-      // Group chat settings
-      groups: {
-        // "*" means all groups
-        "*": {
-          // Require @mention in group chats to avoid spam
-          requireMention: true,
-
-          // Enable group participation
-          enabled: true
-        }
+  agents: {
+    defaults: {
+      model: {
+        primary: "anthropic/claude-opus-4-6"
       }
-    },
-
-    // Email/Gmail configuration
-    // Note: For full Gmail integration, see Gmail PubSub setup in documentation
-    email: {
-      enabled: true,
-      // Email settings will be configured via environment variables
     }
-  },
-
-  // Message handling
-  messages: {
-    groupChat: {
-      mentionPatterns: ["@janet", "@Janet", "janet", "Janet"]
-    }
-  },
-
-  // Workspace configuration
-  workspace: {
-    path: "~/.openclaw/workspace"
-  },
-
-  // Skills configuration
-  skills: {
-    enabled: true,
-    paths: [
-      "~/.openclaw/skills",
-      "~/.claude/skills"
-    ]
-  },
-
-  // Security settings
-  security: {
-    // Workspace isolation
-    sandboxMode: true,
-
-    // Maximum file upload size (in MB)
-    maxFileSize: 50
-  },
-
-  // Logging
-  logging: {
-    level: "info",
-    logToFile: true,
-    logPath: "/opt/janet/logs/openclaw.log"
   }
 }

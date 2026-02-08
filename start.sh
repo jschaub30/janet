@@ -52,7 +52,6 @@ fi
 # Initialize OpenClaw configuration directory
 mkdir -p /root/.openclaw/channels
 mkdir -p /root/.openclaw/skills
-mkdir -p /opt/janet/whatsapp-sessions
 mkdir -p /opt/janet/logs
 
 # Install Agent Skills if not already installed
@@ -64,7 +63,7 @@ fi
 # Wait a bit for everything to settle
 sleep 5
 
-# Start OpenClaw
+# Start OpenClaw Gateway
 cd /opt/janet
-echo "Starting OpenClaw..."
-exec openclaw start
+echo "Starting OpenClaw Gateway..."
+exec openclaw gateway

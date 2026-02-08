@@ -132,14 +132,14 @@ docker-compose ps
 docker-compose logs -f
 ```
 
-### 6. Setup WhatsApp
+### 6. Setup Telegram
 
 ```bash
 # Enter the container
 docker exec -it janet-assistant bash
 
-# Run WhatsApp setup
-./setup-whatsapp.sh
+# Run Telegram setup
+./setup-telegram.sh
 
 # Scan the QR code with your phone
 # Press Ctrl+C when done
@@ -380,11 +380,11 @@ sudo systemctl start fail2ban
 
 ### 5. Restrict WordPress Login
 
-Edit `config/openclaw.json` to limit WhatsApp access:
+Edit `config/openclaw.json` to limit Telegram access:
 
 ```json
 channels: {
-  whatsapp: {
+  telegram: {
     allowFrom: ["+1234567890"],  // Only your number
     ...
   }

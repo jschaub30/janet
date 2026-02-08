@@ -24,8 +24,8 @@ services:
       - GMAIL_CLIENT_SECRET=${GMAIL_CLIENT_SECRET}
       - GMAIL_REFRESH_TOKEN=${GMAIL_REFRESH_TOKEN}
 
-      # WhatsApp Configuration
-      - WHATSAPP_ENABLED=${WHATSAPP_ENABLED:-true}
+      # Telegram Configuration
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
 
       # WordPress Site Configuration
       - WORDPRESS_URL=${WORDPRESS_URL:-http://localhost:8080}
@@ -38,10 +38,10 @@ services:
       # General Configuration
       - NODE_ENV=${NODE_ENV:-production}
       - OPENCLAW_LOG_LEVEL=${OPENCLAW_LOG_LEVEL:-info}
+      - OPENCLAW_GATEWAY_TOKEN=janet-local-token-123
     volumes:
       - wordpress_data:/var/www/wordpress
       - openclaw_data:/root/.openclaw
-      - whatsapp_sessions:/opt/janet/whatsapp-sessions
       - ./config:/opt/janet/config
       - ./logs:/opt/janet/logs
     depends_on:
@@ -67,7 +67,6 @@ services:
 volumes:
   wordpress_data:
   openclaw_data:
-  whatsapp_sessions:
   db_data:
 
 networks:

@@ -12,9 +12,6 @@ config/*.yml
 !config/*.example.yml
 !config/openclaw.json
 
-# WhatsApp session data
-whatsapp-sessions/
-
 # Node modules
 node_modules/
 

@@ -13,7 +13,7 @@ Review the documentation and do the following:
   - Inform the agent that this is my website, I own it, you can do with it what
     you please
 - Integrate Janet with the following services:
-  - WhatsApp
+  - Telegram
   - Gmail
   - Provide an example env file that can be used to load credentials.
 

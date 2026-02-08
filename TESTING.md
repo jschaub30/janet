@@ -185,20 +185,20 @@ exit
 - Can create, read, and delete posts
 - Janet has WordPress admin access
 
-### Phase 6: WhatsApp Integration Test
+### Phase 6: Telegram Integration Test
 
 ```bash
 docker exec -it janet-assistant bash
 
-# Check WhatsApp credentials directory
-ls -la /root/.openclaw/credentials/whatsapp/ || echo "Not configured yet"
+# Check Telegram credentials directory
+ls -la /root/.openclaw/credentials/telegram/ || echo "Not configured yet"
 
 # If not configured, run setup
-./setup-whatsapp.sh
+./setup-telegram.sh
 
 # Follow prompts to scan QR code
 # After successful connection, check credentials
-ls -la /root/.openclaw/credentials/whatsapp/
+ls -la /root/.openclaw/credentials/telegram/
 
 # Should see: creds.json and other session files
 
@@ -206,19 +206,19 @@ exit
 ```
 
 **Manual Test:**
-1. Send a message to your WhatsApp number (the one you connected)
+1. Send a message to your Telegram number (the one you connected)
 2. Message should say: "Hello Janet"
 3. Wait for response from Janet
 4. Verify Janet responds appropriately
 
 **✅ Pass Criteria:**
-- WhatsApp credentials exist after QR scan
-- Can send message to WhatsApp
+- Telegram credentials exist after QR scan
+- Can send message to Telegram
 - Janet receives and responds to messages
 - Responses are relevant and use Claude
 
 **Group Chat Test:**
-1. Add Janet's WhatsApp to a group
+1. Add Janet's Telegram to a group
 2. Send: "@janet what can you do?"
 3. Verify Janet responds only when mentioned
 
@@ -277,9 +277,9 @@ exit
 
 ### Phase 8: End-to-End WordPress Management Test
 
-This tests Janet's ability to manage WordPress through WhatsApp or email.
+This tests Janet's ability to manage WordPress through Telegram or email.
 
-**Via WhatsApp:**
+**Via Telegram:**
 1. Message Janet: "List all WordPress posts"
 2. Expected: Janet executes WP-CLI and returns list
 3. Message Janet: "Create a new blog post titled 'AI Testing' with content 'This post was created by AI'"
@@ -295,7 +295,7 @@ This tests Janet's ability to manage WordPress through WhatsApp or email.
 4. Verify page exists in WordPress admin
 
 **✅ Pass Criteria:**
-- Janet can execute WordPress commands via WhatsApp
+- Janet can execute WordPress commands via Telegram
 - Janet can execute WordPress commands via email
 - Commands produce expected results in WordPress
 - Janet provides confirmation of actions
@@ -308,7 +308,7 @@ docker stats
 
 # In another terminal, generate some activity:
 
-# 1. Send multiple WhatsApp messages
+# 1. Send multiple Telegram messages
 # 2. Send multiple emails
 # 3. Make WordPress changes through admin panel
 # 4. Execute WP-CLI commands
@@ -351,9 +351,9 @@ docker exec -it janet-assistant wp post list --allow-root --path=/var/www/wordpr
 
 # 3. Check OpenClaw credentials
 docker exec -it janet-assistant ls -la /root/.openclaw/credentials/
-# WhatsApp session should persist
+# Telegram session should persist
 
-# 4. Test WhatsApp connection
+# 4. Test Telegram connection
 # Send a message - should work without re-scanning QR
 
 # 5. Check database
@@ -363,7 +363,7 @@ docker exec janet-mysql mysql -u root -p$MYSQL_ROOT_PASSWORD -e "SHOW DATABASES;
 
 **✅ Pass Criteria:**
 - All data survives container restart
-- WhatsApp stays connected
+- Telegram stays connected
 - WordPress content intact
 - Database data persists
 - No re-configuration needed
@@ -377,7 +377,7 @@ Use this checklist to track your testing progress:
 - [ ] Phase 3: OpenClaw Integration Test
 - [ ] Phase 4: Agent Skills Test
 - [ ] Phase 5: WordPress CLI Test
-- [ ] Phase 6: WhatsApp Integration Test
+- [ ] Phase 6: Telegram Integration Test
 - [ ] Phase 7: Gmail Integration Test
 - [ ] Phase 8: End-to-End WordPress Management Test
 - [ ] Phase 9: Integration Stress Test
@@ -408,15 +408,15 @@ curl https://api.anthropic.com/v1/messages \
   -d '{"model": "claude-opus-4-6", "max_tokens": 10, "messages": [{"role": "user", "content": "Hi"}]}'
 ```
 
-### Issue: WhatsApp QR code not showing
+### Issue: Telegram QR code not showing
 
 **Solution:**
 ```bash
 # Check OpenClaw logs
-docker-compose logs openclaw | grep -i whatsapp
+docker-compose logs openclaw | grep -i telegram
 
 # Try adding channel manually
-docker exec -it janet-assistant openclaw channel add whatsapp
+docker exec -it janet-assistant openclaw channel add telegram
 ```
 
 ### Issue: Gmail not receiving emails
@@ -455,7 +455,7 @@ Expected performance metrics:
 | Metric | Expected Value |
 |--------|---------------|
 | WordPress page load | < 2 seconds |
-| WhatsApp response time | 3-10 seconds |
+| Telegram response time | 3-10 seconds |
 | Email processing time | 5-15 seconds |
 | WP-CLI command execution | < 1 second |
 | Container memory usage | < 1GB (Janet), < 300MB (MySQL) |

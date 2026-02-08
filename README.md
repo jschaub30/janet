@@ -1,11 +1,11 @@
 # Janet - OpenClaw AI Assistant
 
-Janet is an AI assistant powered by [OpenClaw](https://openclaw.ai/) with full WordPress administrative access. She can communicate via WhatsApp and Gmail, and has expert knowledge of WordPress development through the [Automattic Agent Skills](https://github.com/Automattic/agent-skills).
+Janet is an AI assistant powered by [OpenClaw](https://openclaw.ai/) with full WordPress administrative access. She can communicate via Telegram and Gmail, and has expert knowledge of WordPress development through the [Automattic Agent Skills](https://github.com/Automattic/agent-skills).
 
 ## Features
 
 - **🤖 AI-Powered**: Uses Claude Opus 4.6 for intelligent responses
-- **📱 WhatsApp Integration**: Communicate via WhatsApp with QR code authentication
+- **📱 Telegram Integration**: Communicate via Telegram bot
 - **📧 Gmail Integration**: Send and receive emails, process email requests
 - **🌐 WordPress Management**: Full admin access to WordPress site
 - **🛠️ Agent Skills**: Expert WordPress knowledge from Automattic
@@ -26,7 +26,7 @@ Janet is an AI assistant powered by [OpenClaw](https://openclaw.ai/) with full W
 │         │              │   MySQL DB     │   │
 │         │              └────────────────┘   │
 │         │                                    │
-│         ├─► WhatsApp (via WhatsApp Web)     │
+│         ├─► Telegram (via Telegram Web)     │
 │         ├─► Gmail (via IMAP/SMTP)           │
 │         └─► Agent Skills (WordPress)        │
 │                                             │
@@ -38,7 +38,7 @@ Janet is an AI assistant powered by [OpenClaw](https://openclaw.ai/) with full W
 - Docker and Docker Compose installed
 - Anthropic API key ([Get one here](https://console.anthropic.com/))
 - Gmail account with App Password or OAuth2 credentials
-- WhatsApp account with a real phone number
+- Telegram account (to create a bot via @BotFather)
 
 ## Quick Start
 
@@ -88,21 +88,19 @@ Open your browser and go to:
 - Username: `janet`
 - Password: Set in `JANET_API_PASSWORD`
 
-### 4. Setup WhatsApp
+### 4. Setup Telegram
 
+First, create a bot on Telegram:
+1. Open Telegram and search for @BotFather
+2. Send `/newbot` and follow the prompts
+3. Copy the bot token
+4. Add `TELEGRAM_BOT_TOKEN=your-token-here` to your `.env` file
+5. Restart: `docker-compose restart`
+
+Then run the setup script:
 ```bash
-# Enter the container
-docker exec -it janet-assistant bash
-
-# Run WhatsApp setup
-./setup-whatsapp.sh
+docker exec -it janet-assistant ./setup-telegram.sh
 ```
-
-This will display a QR code. Scan it with your phone:
-1. Open WhatsApp on your phone
-2. Go to Settings > Linked Devices
-3. Tap "Link a Device"
-4. Scan the QR code
 
 ### 5. Test Gmail Integration
 
@@ -117,11 +115,11 @@ Send a test email to your Gmail address and Janet will process it.
 
 ### Communicating with Janet
 
-**Via WhatsApp:**
+**Via Telegram:**
 ```
-Simply message your WhatsApp number that you connected with Janet.
+Search for your bot on Telegram and send it a message.
 
-In groups, mention @janet to get her attention.
+In groups, add your bot and mention it to get Janet's attention.
 ```
 
 **Via Gmail:**
@@ -237,14 +235,14 @@ janet/
 ├── README.md                 # This file
 ├── config/
 │   ├── openclaw.json         # OpenClaw configuration
-│   ├── whatsapp-config.js    # WhatsApp settings
+│   ├── telegram-config.js    # Telegram settings
 │   └── gmail-config.js       # Gmail settings
 ├── apache-wordpress.conf     # Apache configuration
 ├── supervisord.conf          # Service management
 ├── start.sh                  # Container startup script
 ├── wp-init.sh               # WordPress initialization
 ├── install-agent-skills.sh  # Agent Skills installer
-├── setup-whatsapp.sh        # WhatsApp setup helper
+├── setup-telegram.sh        # Telegram setup helper
 ├── setup-gmail.sh           # Gmail setup helper
 ├── gmail-integration.js     # Gmail integration code
 └── package.json            # Node.js dependencies
@@ -271,8 +269,8 @@ See `.env.example` for all available configuration options.
 - `GMAIL_APP_PASSWORD`: App password
 - `GMAIL_POLLING_INTERVAL`: Email check interval (seconds)
 
-**WhatsApp:**
-- `WHATSAPP_ENABLED`: Enable/disable WhatsApp
+**Telegram:**
+- `WHATSAPP_ENABLED`: Enable/disable Telegram
 
 ### OpenClaw Configuration
 
@@ -285,7 +283,7 @@ Edit `config/openclaw.json` to customize:
 
 ## Troubleshooting
 
-### WhatsApp won't connect
+### Telegram won't connect
 - Ensure you're using a real phone number (not VoIP)
 - Check that your phone has internet access
 - Try regenerating the QR code
@@ -340,9 +338,9 @@ Description of what this skill does.
 Instructions...
 ```
 
-### Multiple WhatsApp Numbers
+### Multiple Telegram Numbers
 
-To use multiple WhatsApp accounts, run separate containers with different configurations.
+To use multiple Telegram accounts, run separate containers with different configurations.
 
 ## Maintenance
 
@@ -391,7 +389,7 @@ docker exec janet-assistant tail -f /var/log/apache2/wordpress-error.log
 2. **Never commit .env file** to version control
 3. **Use strong passwords** for all accounts
 4. **Keep WordPress and plugins updated**
-5. **Limit WhatsApp allowFrom** to trusted numbers
+5. **Limit Telegram allowFrom** to trusted numbers
 6. **Use OAuth2 instead of App Passwords** for Gmail in production
 7. **Enable SSL/TLS** with a reverse proxy
 8. **Regular backups** are essential

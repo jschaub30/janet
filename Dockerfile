@@ -91,9 +91,9 @@ COPY gmail-integration.js /opt/janet/gmail-integration.js
 COPY start.sh /opt/janet/start.sh
 COPY wp-init.sh /opt/janet/wp-init.sh
 COPY install-agent-skills.sh /opt/janet/install-agent-skills.sh
-COPY setup-whatsapp.sh /opt/janet/setup-whatsapp.sh
+COPY setup-telegram.sh /opt/janet/setup-telegram.sh
 COPY setup-gmail.sh /opt/janet/setup-gmail.sh
-RUN chmod +x /opt/janet/start.sh /opt/janet/wp-init.sh /opt/janet/install-agent-skills.sh /opt/janet/setup-whatsapp.sh /opt/janet/setup-gmail.sh
+RUN chmod +x /opt/janet/start.sh /opt/janet/wp-init.sh /opt/janet/install-agent-skills.sh /opt/janet/setup-telegram.sh /opt/janet/setup-gmail.sh
 
 # Expose ports
 # 80: WordPress
